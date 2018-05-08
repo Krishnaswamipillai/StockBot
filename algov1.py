@@ -1,6 +1,6 @@
 import numpy as np
 #weights for weighted averages
-weight90 =
+weight90 = 10
 weight30 =
 weight10 =
 

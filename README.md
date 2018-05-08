@@ -4,4 +4,3 @@ StockBot Project Adv. Hon. Comp. Sci.
 
 
 Written in python, golang, html, and javascript.
-dfasdf

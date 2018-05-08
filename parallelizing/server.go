@@ -1,4 +1,4 @@
--package main
+package main
 
 import (
     "net/http"
@@ -56,8 +56,6 @@ func addGoJob(funcName, function, arguments){
         queue <- WorkRequest{Function: funcName, EncodedFunction: function, Parameter: item}
     }
 }
-
-func
 
 
 func main() {

@@ -14,7 +14,7 @@ startDate = None
 endDate = None
 ticker = None
 from ctypes import *
-lib = cdll.LoadLibrary('../compiled/libfetch.so')
+lib = cdll.LoadLibrary('../go/bin/libfetch/libfetch.so')
 epoch = datetime(1970, 1, 1)
 
 

@@ -5,6 +5,7 @@ import (
     "strings"
     "fmt"
     "encoding/json"
+    "encoding/base64"
     "sync"
     "ioutil"
 )

@@ -187,10 +187,7 @@ def fetchSP500():
     files = os.listdir("./stockPrices")
     tickers = [x for x in origtickers if x not in files]
 
-    with concurrent.futures.ProcessPoolExecutor() as executor:
-        res = executor.map(process, tickers)
 
-    """
     with concurrent.futures.ProcessPoolExecutor(max_workers=12) as executor:
         #Fetches [max_workers] stocks at once, goes through list of stock tickers
         future_to_url = {executor.submit(process, url): url for url in tickers}
@@ -200,7 +197,7 @@ def fetchSP500():
                 data = future.result()
             except:
                 pass
-    """
+    
 
     #writes it all to a file
     f = open('sp500stocks', 'w+')

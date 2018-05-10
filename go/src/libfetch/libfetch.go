@@ -13,7 +13,6 @@ import (
 func FetchUrls(urls string) *C.char {
 	urlList := strings.Split(urls, "|")
 	ch := make(chan string)
-	counter := 1
 	responses := []string{}
 	for _, url := range urlList {
 		go func(url string) {

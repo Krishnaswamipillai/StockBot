@@ -5,6 +5,7 @@ from datetime import date, datetime
 import math
 import cgi
 from bs4 import BeautifulSoup;
+import os
 import concurrent.futures
 #import cgitb; cgitb.enable()
 letters = list("abcdefghijklmnopqrstuvwxyz")
@@ -40,10 +41,10 @@ arguments = cgi.FieldStorage()
 #  "%5EGSPC" is SP500
 #
 
-def getTickers():
+def getTickers(includeDone = False):
     tickers = []
     r = http.request('GET', "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies")
-    #Mostly up to date list on wikipedia with al stocks in SP500
+    #Mostly up to date list on wikipedia with all stocks in SP500
     soup = BeautifulSoup(r.data, "html.parser")
     for i in soup.find_all("table")[0]:
         for x in i:
@@ -53,7 +54,13 @@ def getTickers():
                     ticker = str(y).split(">")[1].split("<")[0]
                     if "reports" not in ticker:
                         tickers.append(ticker.replace(".", "-"))
+    if not includeDone:
+        alreadyGenned = os.listdir('results')
+        newTickers = [x for x in tickers if x not in alreadyGenned]
+        return newTickers
+
     return tickers
+
 
 def getCurrentStockPrice(ticker):
     r = http.request('GET', "https://finance.yahoo.com/quote/" + ticker)
@@ -165,7 +172,7 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 def fetchSP500():
     startEpoch = "1.1.2018"
-    endEpoch = "1.1.2017"
+    endEpoch = "1.1.2000"
     sp500index = getHistoricalData("%5EGSPC", startEpoch, endEpoch)
     #Fetches sp500 prices to compare against
     print(sp500index)
@@ -192,6 +199,8 @@ def fetchSP500():
         print(results[i])
         print(i + "\n\n\n\n")
 
+        open('results/' + i, 'w').write(str(results[i]))
+
     with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
         #Fetches [max_workers] stocks at once, goes through list of stock tickers
         future_to_url = {executor.submit(process, url): url for url in tickers}
@@ -211,5 +220,10 @@ def reorder():
     #Dayn { "Ticker" : {"prices":[(pO, pC)], "relPercentChange" : []}}
     #                            [Dayn-100 -> Dayn]
     pass
-
-fetchSP500()
+def start():
+    fullTickers = getTickers(True)
+    while len(os.listdir('results/')) < len(fullTickers):
+        try:
+            fetchSP500()
+        except Exception:
+            pass

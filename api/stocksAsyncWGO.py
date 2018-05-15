@@ -152,7 +152,7 @@ def getHistoricalData(ticker, startDate, endDate):
                     if x in str(i.findAll('span')[-2]).split(">")[1].split("<")[0]:
                         passed = False
                 if passed == True:
-                    returnValues.append(truncate(float(str(i.findAll('span')[-2]).split(">")[1].split("<")[0].replace(",", ""))))
+                    returnValues.append((truncate(float(str(i.findAll('span')[-2]).split(">")[1].split("<")[0].replace(",", ""))), date))
             counter += 1
 
     print(len(returnValues))
@@ -172,12 +172,12 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 def fetchSP500():
     startEpoch = "1.1.2018"
-    endEpoch = "1.1.2000"
+    endEpoch = "1.1.2010"
     sp500index = getHistoricalData("%5EGSPC", startEpoch, endEpoch)
     #Fetches sp500 prices to compare against
     print(sp500index)
     tickers = getTickers()
-    spPercentages = [truncate(100 * (b - a) / a) for a, b in zip(sp500index[::1], sp500index[1::1])]
+    spPercentages = [truncate(100 * (b[0] - a[0]) / a[0]) for a, b in zip(sp500index[::1], sp500index[1::1])]
     #Calculates daily percentage change
     print(spPercentages)
     results = {}
@@ -186,7 +186,7 @@ def fetchSP500():
         results[i] = {"prices" : getHistoricalData(i, startEpoch, endEpoch)}
         #Gets prices
         print(len(results[i]['prices']))
-        results[i]['percentages'] = [truncate(100 * (b - a) / a) for a, b in zip(results[i]["prices"][::1], results[i]["prices"][1::1])]
+        results[i]['percentages'] = [truncate(100 * (b[0] - a[0]) / a[0]) for a, b in zip(results[i]["prices"][::1], results[i]["prices"][1::1])]
         #Calculates daily change
         differences = []
         counter = 0

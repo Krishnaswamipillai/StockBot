@@ -55,7 +55,7 @@ def getTickers(includeDone = False):
                     if "reports" not in ticker:
                         tickers.append(ticker.replace(".", "-"))
     if not includeDone:
-        alreadyGenned = os.listdir('results')
+        alreadyGenned = os.listdir('results20')
         newTickers = [x for x in tickers if x not in alreadyGenned]
         return newTickers
 
@@ -172,7 +172,7 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 def fetchSP500():
     startEpoch = "1.1.2018"
-    endEpoch = "1.1.2010"
+    endEpoch = "1.1.2000"
     sp500index = getHistoricalData("%5EGSPC", startEpoch, endEpoch)
     #Fetches sp500 prices to compare against
     print(sp500index)
@@ -199,7 +199,7 @@ def fetchSP500():
         print(results[i])
         print(i + "\n\n\n\n")
 
-        open('results/' + i, 'w').write(str(results[i]))
+        open('results20/' + i, 'w').write(str(results[i]))
 
     with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
         #Fetches [max_workers] stocks at once, goes through list of stock tickers
@@ -222,7 +222,7 @@ def reorder():
     pass
 def start():
     fullTickers = getTickers(True)
-    while len(os.listdir('results/')) < len(fullTickers):
+    while len(os.listdir('results20/')) < len(fullTickers):
         try:
             fetchSP500()
         except Exception:

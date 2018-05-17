@@ -10,24 +10,25 @@ import time
 option = webdriver.ChromeOptions()
 option.add_argument(" — incognito")
 option.add_argument("download.default_directory=/Users/azb/github/StockBot/api/minute/")
-options.add_argument('headless')
 
 browser = webdriver.Chrome(executable_path='./chromedriver', chrome_options=option)
 
 def fetchMinute(ticker):
-    url = "www.morningstar.com"
+    url = "http://www.morningstar.com"
     browser.get(url)
-    time.sleep(1)
-    try:
-        browser.find_element_by_class_name("remove-ui-icon").click()
-    except:
-        pass
+    time.sleep(5)
 
-    time.sleep(.5)
+    elem = browser.find_element_by_css_selector("span.icon.remove-ui-icon")
+    print(elem)
 
-    inputElement = browser.find_element_by_class_name("qa-automation-search")
-    for letter in ticker:
-        inputElement.send_keys(letter)
+    elem.click()
+
+    time.sleep(2)
+
+    inputElement = browser.find_element_by_css_selector("input.qa-automation-search")
+    inputElement.click()
+
+    inputElement.send_keys(ticker)
 
     inputElement.send_keys(Keys.ENTER)
     time.sleep(1)

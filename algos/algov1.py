@@ -1,10 +1,11 @@
 import numpy as np
 #weights for weighted averages
-weight90 = 10
+weight90 = 
 weight30 =
 weight10 =
 
 #average each company in a list
+#We need to import the 90,30,10 day lists every day. 
 avg90 = np.array(lnrg90)
 avg30 = np.array(lnrg30)
 avg10 = np.array(lnrg10)

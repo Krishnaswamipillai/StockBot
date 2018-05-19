@@ -21,4 +21,4 @@ def loadStocks():
         d = [x[1].split(" ")[-1] + " " + str(convertMonth(x[1].split(" ")[0])) + " " + x[1].split(" ")[1][:-1] for x in stocks[i]['prices']]
         days.update(d)
 
-    return dict.fromkeys(days, key=lambda date: datetime.strptime(date, "%Y %m %d"), dict.fromkeys(directorylist, None))
+    returndict = dict.fromkeys(days, None)

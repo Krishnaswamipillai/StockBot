@@ -1,25 +1,25 @@
 import numpy as np
 #weights for weighted averages
-weight90 = 
+weight90 =
 weight30 =
 weight10 =
 weightAvgConstant =
 
 #average each company in a list
-#We need to import the 90,30,10 day lists every day. 
+#We need to import the 90,30,10 day lists every day.
 def setData(BigBadDataStructure):
-	m90 = np.array([BigBadDataStructure[x]["linreg90"][0] for x in BigBadDataStructure.keys())])
-	m30 = np.array([BigBadDataStructure[x]["linreg30"][0] for x in BigBadDataStructure.keys())])
-	m10= np.array([BigBadDataStructure[x]["linreg10"][0] for x in BigBadDataStructure.keys())])
-	r290 = np.array([BigBadDataStructure[x]["linreg90"][1] for x in BigBadDataStructure.keys())])
-	r230 = np.array([BigBadDataStructure[x]["linreg30"][1] for x in BigBadDataStructure.keys())])
-	r210 = np.array([BigBadDataStructure[x]["linreg10"][1] for x in BigBadDataStructure.keys())])
-	stockPrice = np.array([BigBadDataStructure[x]["price"] for x in BigBadDataStructure.keys())])
+	m90 = np.array([BigBadDataStructure[x]["linreg90"][0] for x in BigBadDataStructure.keys()])
+	m30 = np.array([BigBadDataStructure[x]["linreg30"][0] for x in BigBadDataStructure.keys()])
+	m10= np.array([BigBadDataStructure[x]["linreg10"][0] for x in BigBadDataStructure.keys()])
+	r290 = np.array([BigBadDataStructure[x]["linreg90"][1] for x in BigBadDataStructure.keys()])
+	r230 = np.array([BigBadDataStructure[x]["linreg30"][1] for x in BigBadDataStructure.keys()])
+	r210 = np.array([BigBadDataStructure[x]["linreg10"][1] for x in BigBadDataStructure.keys()])
+	stockPrice = np.array([BigBadDataStructure[x]["price"] for x in BigBadDataStructure.keys()])
 
 #transaction fees
 #tFee (InteractiveBrokers- FeePerShare)
 tFeePerShare = 4.95
-weightTFee = 
+weightTFee =
 
 #relative percentage growth as compared to S&P i.e 95%/115% based off of 100% so 15% decrease is equivalent to 85%
 relGrowth = []

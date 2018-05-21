@@ -32,6 +32,7 @@ def loadStocks():
     for stock in stocks.keys():
         for price in stocks[stock]['prices']:
             x = price[1]
+            print(price[0])
             splitted = x.split(" ")
             date = splitted[-1] + " " + str(convertMonth(splitted[0])) + " " + splitted[1][:-1]
             returndict[date].append({stock: price[0], "lin30" : None, "lin60" : None, "lin90" : None, "percentageDif" : None})

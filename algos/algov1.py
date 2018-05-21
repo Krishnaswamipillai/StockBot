@@ -3,16 +3,18 @@ import numpy as np
 weight90 = 
 weight30 =
 weight10 =
+weightAvgConstant =
 
 #average each company in a list
 #We need to import the 90,30,10 day lists every day. 
-def setData(lnrg90,lnrg30,lnrg10,ofLnrg90,ofLnrg30,ofLnrg10):
-	avg90 = np.array(lnrg90)
-	avg30 = np.array(lnrg30)
-	avg10= np.array(lnrg10)
-	r290 = np.array(ofLnrg90)
-	r230 = np.array(ofLnrg30)
-	r210 = np.array(ofLnrg10)
+def setData(BigBadDataStructure):
+	m90 = np.array([BigBadDataStructure[x]["linreg90"][0] for x in BigBadDataStructure.keys())])
+	m30 = np.array([BigBadDataStructure[x]["linreg30"][0] for x in BigBadDataStructure.keys())])
+	m10= np.array([BigBadDataStructure[x]["linreg10"][0] for x in BigBadDataStructure.keys())])
+	r290 = np.array([BigBadDataStructure[x]["linreg90"][1] for x in BigBadDataStructure.keys())])
+	r230 = np.array([BigBadDataStructure[x]["linreg30"][1] for x in BigBadDataStructure.keys())])
+	r210 = np.array([BigBadDataStructure[x]["linreg10"][1] for x in BigBadDataStructure.keys())])
+	stockPrice = np.array([BigBadDataStructure[x]["price"] for x in BigBadDataStructure.keys())])
 
 #transaction fees
 #tFee (InteractiveBrokers- FeePerShare)
@@ -24,7 +26,7 @@ relGrowth = []
 weightRelGrowth =
 
 def zCalc():
-	return numpy.multiply((1/(weight90+weight30+weight10)),weightAvg,numpy.add(numpy.multiply(avg90,weight90),numpy.multiply(avg30,weight30),numpy.multiply(avg10,weight10)))
+	return numpy.multiply((1/(weight90+weight30+weight10)),weightAvgConstant,numpy.add(numpy.multiply(m90,weight90,1/(stockPrice-m90*90)),numpy.multiply(m30,weight30,1/(stockPrice-m30*30)),numpy.multiply(m10,weight10,1/(stockPrice-m10*10))))
 
 def sigmoid(z):
 	# Z = weightAvg*stockAvg - TFeePerShare*weightTfee/stockPrice

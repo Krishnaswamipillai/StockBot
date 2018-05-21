@@ -26,8 +26,11 @@ relGrowth = []
 weightRelGrowth =
 
 def zCalc():
-	return numpy.multiply((1/(weight90+weight30+weight10)),weightAvgConstant,numpy.add(numpy.multiply(m90,weight90,1/(stockPrice-m90*90)),numpy.multiply(m30,weight30,1/(stockPrice-m30*30)),numpy.multiply(m10,weight10,1/(stockPrice-m10*10))))
-
+	based90 = numpy.multiply(m90,weight90,1/(stockPrice-m90*90))
+	based30 = numpy.multiply(m30,weight30,1/(stockPrice-m30*30))
+	based10 = numpy.multiply(m10,weight10,1/(stockPrice-m10*10))
+	return numpy.multiply((1/(weight90+weight30+weight10)),weightAvgConstant,numpy.add(based90,based30,based10))
+			     
 def sigmoid(z):
 	# Z = weightAvg*stockAvg - TFeePerShare*weightTfee/stockPrice
 	return 1/(1+exp(-z))

@@ -54,7 +54,8 @@ def vectorSimgoid():
 	return vecSigmoid(zCalc())
 	
 def stockCalculator():
-	for stock
+	  
+	
 	
 	
 	

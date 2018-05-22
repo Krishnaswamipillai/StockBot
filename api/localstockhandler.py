@@ -27,7 +27,7 @@ def loadStocks():
 
     #move to ordered list
     #add stock price of beginning of list
-
+    counter = 0
     returndict = dict.fromkeys(days, {})
     for stock in stocks.keys():
         for price in stocks[stock]['prices']:
@@ -36,9 +36,14 @@ def loadStocks():
             x = price[1]
             splitted = x.split(" ")
             date = splitted[-1] + " " + str(convertMonth(splitted[0])) + " " + splitted[1][:-1]
+            if counter % 100 == 0:
+                print(date)
+            counter += 1
             date = date.strip()
             returndict[date][stock] = {"price":price[0], "lin30" : None, "lin60" : None, "lin90" : None, "percentageDif" : None}
-
-    returnlist = sorted(returndict.items(), key=lambda date: datetime.strptime(date[0], "%Y %m %d"))
+    dictToList = []
+    for i in returndict.keys():
+        dictToList.append((i, returndict[i]))
+    returnlist = sorted(dictToList, key=lambda date: datetime.strptime(date[0], "%Y %m %d"))
 
     return returnlist

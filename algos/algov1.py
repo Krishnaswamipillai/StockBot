@@ -1,9 +1,10 @@
 import numpy as np
-# Global Values  
+# Global Values 
+numStocks{"":}
 # pool = total ammount of money
 pool = 100000
 # money in investments
-investments = 0
+investments = []
 
 #weights for weighted averages
 
@@ -54,7 +55,13 @@ def vectorSimgoid():
 	return vecSigmoid(zCalc())
 	
 def stockCalculator():
-	  
+	arr = vectorSigmoid()
+	for i in len(arr):
+		if arr[i] > 0:
+			int(pool*arr[i]/stockPrice[i])
+		else:
+			int(investments[i]*arr[i]/stockPrice[i])
+		
 	
 	
 	

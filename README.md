@@ -1,5 +1,7 @@
 # StockBot
-StockBot Project Adv. Hon. Comp. Sci.
+StockBot Project
+
+Bishops 2018, Advanced Honors Computer Science
 
 
 

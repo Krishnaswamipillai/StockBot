@@ -10,6 +10,27 @@ months = {
 def convertMonth(month):
     return months[month]
 
+def getLinArrays(index, arr):
+    arr30 = []
+    arr60 = []
+    arr90 = []
+    counter = 0
+    while counter <= 90 and index-counter >= 0:
+        arr90.append(arr[index - counter])
+        counter += 1
+    counter = 0
+    while counter <= 60 and index-counter >= 0:
+        arr60.append(arr[index - counter])
+        counter += 1
+    counter = 0
+    while counter <= 30 and index-counter >= 0:
+        arr30.append(arr[index - counter])
+        counter += 1
+
+    return LinReg(arr30), LinReg(arr60), LinReg(arr90)
+
+
+
 def loadStocks():
     stocks = {}
     days = set()
@@ -27,34 +48,35 @@ def loadStocks():
 
         days.update(d)
 
+    returndict = {}
 
-    #move to ordered list
-    #add stock price of beginning of list
-    returndict = dict.fromkeys(days, {})
+    for i in days:
+        returndict[i] = {}
+
     for stock in stocks.keys():
+        print(stock)
         for price in stocks[stock]['prices']:
-            if stock == "AMD":
-                print(price[0])
             x = price[1]
             splitted = x.split(" ")
             date = splitted[-1] + " " + str(convertMonth(splitted[0])) + " " + splitted[1][:-1]
-            if stock == "AMD":
-                print(date)
             date = date.strip()
-            if ("2010 1" in date) and (stock == "AMD"):
-                returndict[date][stock] = {"price":price[0], "lin30" : None, "lin60" : None, "lin90" : None, "percentageDif" : None}
-                print(returndict[date][stock])
-            else:
-                returndict[date][stock] = {"price":price[0], "lin30" : None, "lin60" : None, "lin90" : None, "percentageDif" : None}
+            returndict[date][stock] = {"price":price[0], "lin30" : None, "lin60" : None, "lin90" : None, "percentageDif" : None}
+
     dictToList = []
     counter = 0
     for i in returndict.keys():
-        counter += 1
         dictToList.append((i, returndict[i]))
-        if counter % 100 == 0:
-            print((i, returndict[i]))
-            print("\n\n\n\n")
 
     returnlist = sorted(dictToList, key=lambda date: datetime.strptime(date[0], "%Y %m %d"))
 
     return returnlist
+
+def processStocks():
+    daystocks = loadStocks()
+
+    counter = 1
+    for x in range(len(daystocks)):
+        min = x-90
+        if min < 0:
+            min = 0
+        daystolinreg = daystocks[min: x]

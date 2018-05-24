@@ -29,11 +29,6 @@ def setData(BigBadDataStructure):
 	r210 = np.array([BigBadDataStructure[x]["linreg10"][1] for x in numStocksOwnedCompanies.keys()])
 	stockPrice = np.array([BigBadDataStructure[x]["price"] for x in numStocksOwnedCompanies.keys()])\
 	counter = 0
-	for x in numStocksOwnedCompanies.keys():
-		numStocksOwnedCompanies[x] = investments[counter]
-		counter += 1
-	pool = moneyOnHand + np.sum(np.multiply(stockPrice,investments))
-	moneyOnHand = pool
 
 #transaction fees
 #tFee (InteractiveBrokers- FeePerShare)
@@ -67,13 +62,20 @@ def stockCalculator():
 	arr = vectorSigmoid()
 	for i in len(arr):
 		if arr[i] > 0:
-			if
-			investments[i] += int(pool*arr[i]/stockPrice[i])
+			if moneyOnHand - int(pool*arr[i]/stockPrice[i])*stockPrice[i] > 0:
+				moneyOnHand -= int(pool*arr[i]/stockPrice[i])*stockPrice[i]
+				investments[i] += int(pool*arr[i]/stockPrice[i])
 		else:
-			if investments[i] >= int(investments[i]*arr[i]/stockPrice[i]):
-				investments[i] -= int(investments[i]*arr[i]/stockPrice[i])
+			if investments[i] >= int(investments[i]*arr[i]):
+				moneyOnHand += int(investments[i]*arr[i])stockPrice[i]
+				investments[i] -= int(investments[i]*arr[i])
 			else:
+				moneyOnHand += investments[i]
 				investments[i] = 0
+		for x in numStocksOwnedCompanies.keys():
+		numStocksOwnedCompanies[x] = investments[counter]
+		counter += 1
+		pool = moneyOnHand + np.sum(np.multiply(stockPrice,investments))
 		
 	
 	

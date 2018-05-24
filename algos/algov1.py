@@ -1,7 +1,7 @@
 import numpy as np
 # Global Values 
 numStocksOwnedCompanies = {}
-for i in BigVadDataStructure.keys():
+for i in BigBadDataStructure.keys():
 	numStocksOwnedCompanies[i] = 0
 # pool = total ammount of money
 pool = 100000

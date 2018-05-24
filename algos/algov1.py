@@ -2,7 +2,8 @@ import numpy as np
 # Global Values 
 numStocksOwnedCompanies = {}
 for i in BigBadDataStructure.keys():
-	numStocksOwnedCompanies[i] = 0
+	if i not in numStocksOwnedCompanies.keys():
+		numStocksOwnedCompanies[i] = 0
 # pool = total ammount of money
 pool = 100000
 # money in investments
@@ -21,6 +22,9 @@ posSigmoidConstant =
 #average each company in a list
 #We need to import the 90,30,10 day lists every day.
 def setData(BigBadDataStructure):
+	for i in BigBadDataStructure.keys():
+	if i not in numStocksOwnedCompanies.keys():
+		numStocksOwnedCompanies[i] = 0
 	m90 = np.array([BigBadDataStructure[x]["linreg90"][0] for x in numStocksOwnedCompanies.keys().sorted()])
 	m30 = np.array([BigBadDataStructure[x]["linreg30"][0] for x in numStocksOwnedCompanies.keys().sorted()])
 	m10 = np.array([BigBadDataStructure[x]["linreg10"][0] for x in numStocksOwnedCompanies.keys().sorted()])

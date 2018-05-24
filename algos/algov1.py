@@ -61,16 +61,16 @@ def vectorSimgoid():
 def stockCalculator():
 	arr = vectorSigmoid()
 	for i in len(arr):
-		if arr[i] > 0:
+		if arr[i] >= 0:
 			if moneyOnHand - int(pool*arr[i]/stockPrice[i])*stockPrice[i] > 0:
 				moneyOnHand -= int(pool*arr[i]/stockPrice[i])*stockPrice[i]
 				investments[i] += int(pool*arr[i]/stockPrice[i])
 		else:
-			if investments[i] >= int(investments[i]*arr[i]):
-				moneyOnHand += int(investments[i]*arr[i])stockPrice[i]
-				investments[i] -= int(investments[i]*arr[i])
+			if investments[i] >= abs(int(investments[i]*arr[i])):
+				moneyOnHand += abs(int(investments[i]*arr[i])stockPrice[i])
+				investments[i] -= abs(int(investments[i]*arr[i]))
 			else:
-				moneyOnHand += investments[i]
+				moneyOnHand += investments[i]stockPrice[i]
 				investments[i] = 0
 		for x in numStocksOwnedCompanies.keys():
 		numStocksOwnedCompanies[x] = investments[counter]

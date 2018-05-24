@@ -6,7 +6,7 @@ for i in BigBadDataStructure.keys():
 # pool = total ammount of money
 pool = 100000
 # money in investments
-investments = np.array([numStocksOwnedCompanies[x] for x in numStocksOwnedCompanies.keys()])
+investments = np.array([numStocksOwnedCompanies[x] for x in numStocksOwnedCompanies.keys().sorted()])
 moneyOnHand = pool
 
 #weights for weighted averages
@@ -21,13 +21,13 @@ posSigmoidConstant =
 #average each company in a list
 #We need to import the 90,30,10 day lists every day.
 def setData(BigBadDataStructure):
-	m90 = np.array([BigBadDataStructure[x]["linreg90"][0] for x in numStocksOwnedCompanies.keys()])
-	m30 = np.array([BigBadDataStructure[x]["linreg30"][0] for x in numStocksOwnedCompanies.keys()])
-	m10 = np.array([BigBadDataStructure[x]["linreg10"][0] for x in numStocksOwnedCompanies.keys()])
-	r290 = np.array([BigBadDataStructure[x]["linreg90"][1] for x in numStocksOwnedCompanies.keys()])
-	r230 = np.array([BigBadDataStructure[x]["linreg30"][1] for x in numStocksOwnedCompanies.keys()])
-	r210 = np.array([BigBadDataStructure[x]["linreg10"][1] for x in numStocksOwnedCompanies.keys()])
-	stockPrice = np.array([BigBadDataStructure[x]["price"] for x in numStocksOwnedCompanies.keys()])\
+	m90 = np.array([BigBadDataStructure[x]["linreg90"][0] for x in numStocksOwnedCompanies.keys().sorted()])
+	m30 = np.array([BigBadDataStructure[x]["linreg30"][0] for x in numStocksOwnedCompanies.keys().sorted()])
+	m10 = np.array([BigBadDataStructure[x]["linreg10"][0] for x in numStocksOwnedCompanies.keys().sorted()])
+	r290 = np.array([BigBadDataStructure[x]["linreg90"][1] for x in numStocksOwnedCompanies.keys().sorted()])
+	r230 = np.array([BigBadDataStructure[x]["linreg30"][1] for x in numStocksOwnedCompanies.keys().sorted()])
+	r210 = np.array([BigBadDataStructure[x]["linreg10"][1] for x in numStocksOwnedCompanies.keys().sorted()])
+	stockPrice = np.array([BigBadDataStructure[x]["price"] for x in numStocksOwnedCompanies.keys().sorted()])
 	counter = 0
 
 #transaction fees
@@ -72,7 +72,8 @@ def stockCalculator():
 			else:
 				moneyOnHand += investments[i]stockPrice[i]
 				investments[i] = 0
-		for x in numStocksOwnedCompanies.keys():
+		counter = 0
+		for x in numStocksOwnedCompanies.keys().sorted():
 		numStocksOwnedCompanies[x] = investments[counter]
 		counter += 1
 		pool = moneyOnHand + np.sum(np.multiply(stockPrice,investments))

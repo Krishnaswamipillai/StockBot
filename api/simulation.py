@@ -72,6 +72,8 @@ def loadStocks():
 
     return returnlist
 
+
+
 def process(daystocks, filelist, simday):
     x = simday
     print(x)
@@ -99,7 +101,7 @@ def process(daystocks, filelist, simday):
         except:
             pass
 
-    return daystocks
+    return daystocks[x]
 
 def startSimulation(date1, date2):
     filelist = os.listdir(STOCKDIR)
@@ -110,13 +112,13 @@ def startSimulation(date1, date2):
     ##########################
     """)
     print("starting.")
-    print("------------------")
-    print("READING STOCK DATA")
-    print("------------------")
+    print("############################")
+    print("#### READING STOCK DATA ####")
+    print("############################")
     daystocks = loadStocks()
-    print("------------------")
-    print("DONE LOADING STOCK")
-    print("------------------")
+    print("############################")
+    print("#### DONE LOADING STOCK ####")
+    print("############################")
 
     firstIndex = None
     endIndex = None
@@ -124,7 +126,12 @@ def startSimulation(date1, date2):
     for i in range(len(daystocks)-1):
         if daystocks[i][0] == date1:
             firstIndex = i
+            print(i)
         elif daystocks[i][0] == date2:
             endIndex = i
+            print("triggered")
+
+
     daystocks = daystocks[firstIndex:endIndex + 1]
-    process()
+    for i in range(len(daystocks)):
+        dayresults = process(daystocks, filelist, i)

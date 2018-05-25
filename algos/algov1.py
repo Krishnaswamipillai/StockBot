@@ -7,7 +7,7 @@ for i in BigBadDataStructure.keys():
 # pool = total ammount of money
 pool = 100000
 # money in investments
-investments = np.array([numStocksOwnedCompanies[x] for x in numStocksOwnedCompanies.keys().sorted()])
+investments = np.array([numStocksOwnedCompanies[x] for x in sorted(numStocksOwnedCompanies)])
 moneyOnHand = pool
 
 #weights for weighted averages
@@ -25,13 +25,13 @@ def setData(BigBadDataStructure):
 	for i in BigBadDataStructure.keys():
 	if i not in numStocksOwnedCompanies.keys():
 		numStocksOwnedCompanies[i] = 0
-	m90 = np.array([BigBadDataStructure[x]["linreg90"][0] for x in numStocksOwnedCompanies.keys().sorted()])
-	m30 = np.array([BigBadDataStructure[x]["linreg30"][0] for x in numStocksOwnedCompanies.keys().sorted()])
-	m10 = np.array([BigBadDataStructure[x]["linreg10"][0] for x in numStocksOwnedCompanies.keys().sorted()])
-	r290 = np.array([BigBadDataStructure[x]["linreg90"][1] for x in numStocksOwnedCompanies.keys().sorted()])
-	r230 = np.array([BigBadDataStructure[x]["linreg30"][1] for x in numStocksOwnedCompanies.keys().sorted()])
-	r210 = np.array([BigBadDataStructure[x]["linreg10"][1] for x in numStocksOwnedCompanies.keys().sorted()])
-	stockPrice = np.array([BigBadDataStructure[x]["price"] for x in numStocksOwnedCompanies.keys().sorted()])
+	m90 = np.array([BigBadDataStructure[x]["linreg90"][0] for x in sorted(numStocksOwnedCompanies)])
+	m30 = np.array([BigBadDataStructure[x]["linreg30"][0] for x in sorted(numStocksOwnedCompanies)])
+	m10 = np.array([BigBadDataStructure[x]["linreg10"][0] for x in sorted(numStocksOwnedCompanies)])
+	r290 = np.array([BigBadDataStructure[x]["linreg90"][1] for x in sorted(numStocksOwnedCompanies)])
+	r230 = np.array([BigBadDataStructure[x]["linreg30"][1] for x in sorted(numStocksOwnedCompanies)])
+	r210 = np.array([BigBadDataStructure[x]["linreg10"][1] for x in sorted(numStocksOwnedCompanies)])
+	stockPrice = np.array([BigBadDataStructure[x]["price"] for x in sorted(numStocksOwnedCompanies)])
 	counter = 0
 
 #transaction fees
@@ -77,7 +77,7 @@ def stockCalculator():
 				moneyOnHand += investments[i]stockPrice[i]
 				investments[i] = 0
 		counter = 0
-		for x in numStocksOwnedCompanies.keys().sorted():
+		for x in sorted(numStocksOwnedCompanies):
 		numStocksOwnedCompanies[x] = investments[counter]
 		counter += 1
 		pool = moneyOnHand + np.sum(np.multiply(stockPrice,investments))

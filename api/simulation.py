@@ -74,7 +74,7 @@ def loadStocks():
 
 
 
-def process(daystocks, filelist, simday):
+def process(daystocks, filelist, simday, initalprice = 100000):
     x = simday
     print(x)
     min = x-90
@@ -131,7 +131,10 @@ def startSimulation(date1, date2):
             endIndex = i
             print("triggered")
 
-
+    stocksOwned = {}
+    money = initalprice
     daystocks = daystocks[firstIndex:endIndex + 1]
+
     for i in range(len(daystocks)):
         dayresults = process(daystocks, filelist, i)
+        money, stocksOwned = #call algorith here#

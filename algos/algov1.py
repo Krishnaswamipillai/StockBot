@@ -12,12 +12,12 @@ moneyOnHand = pool
 
 #weights for weighted averages
 
-weight90 =
-weight30 =
-weight10 =
-weightAvgConstant =
-negSigmoidConstant =
-posSigmoidConstant =
+weight90 =1
+weight30 =1
+weight10 =1
+weightAvgConstant =1
+negSigmoidConstant =1
+posSigmoidConstant =1
 
 #average each company in a list
 #We need to import the 90,30,10 day lists every day.
@@ -32,16 +32,12 @@ def setData(BigBadDataStructure):
 	r230 = np.array([BigBadDataStructure[x]["linreg30"][1] for x in sorted(numStocksOwnedCompanies)])
 	r210 = np.array([BigBadDataStructure[x]["linreg10"][1] for x in sorted(numStocksOwnedCompanies)])
 	stockPrice = np.array([BigBadDataStructure[x]["price"] for x in sorted(numStocksOwnedCompanies)])
-	counter = 0
 
 #transaction fees
 #tFee (InteractiveBrokers- FeePerShare)
 tFeePerShare = 4.95
-weightTFee =
+weightTFee =1
 
-#relative percentage growth as compared to S&P i.e 95%/115% based off of 100% so 15% decrease is equivalent to 85%
-relGrowth = []
-weightRelGrowth =
 
 def zCalc():
 	avgR2 = numpy.multiply(numpy.multiply(r290,r230,r210),1/3)
@@ -81,6 +77,22 @@ def stockCalculator():
 		numStocksOwnedCompanies[x] = investments[counter]
 		counter += 1
 		pool = moneyOnHand + np.sum(np.multiply(stockPrice,investments))
+		
+def main(dataBase,w9,w3,w1,avgC,negSig,posSig):
+	weight90 =w9
+	weight30 =w3
+	weight10 =w1
+	weightAvgConstant =avgC
+	negSigmoidConstant =negSig
+	posSigmoidConstant =posSig
+	setData(dataBase)
+	stockCalculator()
+
+	
+	
+
+	
+	
 		
 	
 	

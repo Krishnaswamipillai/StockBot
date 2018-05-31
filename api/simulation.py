@@ -2,6 +2,9 @@ import os
 import sys; sys.path.append("../algos/")
 from datetime import datetime
 from linreg import LinReg
+import time
+import algov1 as al
+import traceback
 
 months = {
     'Jan' : 1,'Feb' : 2,'Mar' : 3,'Apr' : 4,'May' : 5,'Jun' : 6,
@@ -61,7 +64,7 @@ def loadStocks():
             splitted = x.split(" ")
             date = splitted[-1] + " " + str(convertMonth(splitted[0])) + " " + splitted[1][:-1]
             date = date.strip()
-            returndict[date][stock] = {"price":price[0], "lin30" : None, "lin60" : None, "lin90" : None, "percentageDif" : None}
+            returndict[date][stock] = {"price":price[0], "linreg30" : None, "linreg60" : None, "linreg90" : None, "percentageDif" : None}
 
     dictToList = []
     counter = 0
@@ -74,7 +77,7 @@ def loadStocks():
 
 
 
-def process(daystocks, filelist, simday, initalprice = 100000):
+def process(daystocks, filelist, simday):
     x = simday
     print(x)
     min = x-90
@@ -94,16 +97,16 @@ def process(daystocks, filelist, simday, initalprice = 100000):
     for i in stocks.keys():
         try:
             thirty, sixty, ninty = getLinArrays(stocks[i])
-            daystocks[x][1][i]['lin30'] = thirty
-            daystocks[x][1][i]['lin60'] = sixty
-            daystocks[x][1][i]['lin90'] = ninty
+            daystocks[x][1][i]['linreg30'] = thirty
+            daystocks[x][1][i]['linreg60'] = sixty
+            daystocks[x][1][i]['linreg90'] = ninty
 
         except:
             pass
 
     return daystocks[x]
 
-def startSimulation(date1, date2):
+def startSimulation(date1, date2, initalprice = 100000):
     filelist = os.listdir(STOCKDIR)
 
     print("""
@@ -111,7 +114,8 @@ def startSimulation(date1, date2):
     ### STOCK TRADING BOT ####
     ##########################
     """)
-    print("starting.")
+    time.sleep(.5)
+
     print("############################")
     print("#### READING STOCK DATA ####")
     print("############################")
@@ -126,15 +130,22 @@ def startSimulation(date1, date2):
     for i in range(len(daystocks)-1):
         if daystocks[i][0] == date1:
             firstIndex = i
-            print(i)
+
         elif daystocks[i][0] == date2:
             endIndex = i
-            print("triggered")
 
     stocksOwned = {}
     money = initalprice
     daystocks = daystocks[firstIndex:endIndex + 1]
 
     for i in range(len(daystocks)):
-        dayresults = process(daystocks, filelist, i)
-        money, stocksOwned = #call algorith here#
+        try:
+            dayresults = process(daystocks, filelist, i)
+            print(len(dayresults[1]["AMD"]))
+            #call algorith here
+            print('here')
+            money, stocksOwned = al.main(dayresults[1],5,10,3,0.1,2.5,0.5,money,stocksOwned)
+            print('done')
+            print(money, stocksOwned)
+        except Exception as e:
+            print(traceback.format_exc())

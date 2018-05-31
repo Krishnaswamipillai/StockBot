@@ -1,0 +1,26 @@
+<html>
+        <head>
+                <script src="https://apis.google.com/js/platform.js" async defer></script>
+                <meta name="google-signin-client_id" content="400909393742-fagoekann6vpms68vsmjdtohvisdsrlj.apps.googleusercontent.com">
+                <script src="scripts.js" async defer></script>
+
+                <script>
+                    
+                var currentStock = ""
+                setInterval(function(){
+                    if (currentStock != "") {
+                        console.log(getCurrentStockPrice(currentStock, true))
+                    }
+                    console.log('updatedStock')
+                }, 1500)
+                    
+                </script>
+            
+        </head>
+        <body id="main">
+                <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                <br />
+                <p id="liveupdate"></p>
+        </body>
+</html>
+

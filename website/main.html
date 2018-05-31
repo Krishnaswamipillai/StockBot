@@ -1,0 +1,159 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+          <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+        
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
+                <meta name="google-signin-client_id" content="400909393742-fagoekann6vpms68vsmjdtohvisdsrlj.apps.googleusercontent.com">
+                <script src="scripts2.js?12345655" async defer></script>
+        
+        <style>
+            nav {
+                background: #4CAF50;
+            }
+            #logo img {
+                height: 80%;
+                margin-left: 1vw;
+                margin-top: .5vh;
+            }
+            #logo {
+
+                float: left;
+            }
+            #title {
+                /*padding: 1.3%;*/
+                float: right;
+            }
+            
+            span{
+                color: #212121;
+            }
+        </style>
+    </head>
+    <body>
+        
+        <nav>
+            <div id="logo"><img src="http://www.clker.com/cliparts/p/U/D/z/g/q/taj-mahal-th.png" /></div>
+
+            <div id="title">
+                    <i data-target="slide-out" class="sidenav-trigger waves-effect material-icons waves-light">menu</i>
+            </div>              
+        </nav>
+                                    
+
+
+        <ul id="slide-out" class="sidenav">
+            <li><div class="user-view">
+              <a href="#user"><img class="circle z-depth-1" id='userImage' ></a>
+              <a href="#name"><span class=" name">John Doe</span></a>
+              <a href="#email"><span class="email">jdandturk@gmail.com</span></a>
+            </div></li>
+            <li><div class="divider"></div></li>
+            <li><br /></li>
+            <li class="center-align"><div class="g-signin2 waves-effect z-depth-1" data-onsuccess="onSignIn"></div></li>
+        </ul>
+        
+<div class="row" id="cardholder">
+    
+</div>
+
+        
+        
+        <div class="fixed-action-btn" >
+        <a class="btn-floating btn-large waves-effect waves-dark modal-trigger"  href="#modal1" style="background: #607D8B;">
+        <i class="large material-icons">search</i>
+        </a>
+        
+        
+        <div id="modal1" class="modal">
+            <div class="modal-content">
+                <div class="row">
+                    <div class="col s12">
+                        <div class="row">
+                            <div class="input-field col s12">
+                            <i class="material-icons prefix">search</i>
+                            <input type="text" id="autocomplete-input" class="autocomplete">
+                            <label for="autocomplete-input">Stock ticker</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+            
+            
+        
+
+        
+        <script>
+var current = 0
+stockstracking = []
+function addcard(stockticker) {
+    document.getElementById('cardholder').innerHTML += '<div class="col m4"> <div stock="' + stockticker + '" class="card ' + current.toString() + '"><div class="card-content"> <div class="card-title">' + stockticker + '</div><p>Current Stock Price: <span class="stockprice' + current.toString() +'"></span></p> </div><div class="card-action"> <a href="#">This is a link</a></div></div></div>'
+    current += 1
+    console.log(stockstracking.push(stockticker))
+    console.log(stockstracking)
+}
+            
+function update() {
+    stockstracking.forEach(function(element) {
+        getCurrentStockPrice(element, document.querySelector("[stock = \'" + element + "\']"));
+    });
+}
+            
+            
+
+var node = document.getElementById("autocomplete-input");
+node.addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        if (stockstracking.indexOf(node.value) == -1){
+            addcard(node.value)
+        }
+        else {
+            console.log('already added')
+        }
+        
+        // Do more work
+    }
+});
+            
+
+document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.modal');
+    var instances = M.Sidenav.init(elems);
+  });
+        
+              document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.sidenav');
+    var instances = M.Sidenav.init(elems);
+  });
+            
+
+            document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.modal');
+    var instances = M.Modal.init(elems);
+  });
+            document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.autocomplete');
+    var instances = M.Autocomplete.init(elems);
+  });
+            
+             document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.fixed-action-btn');
+    var instances = M.FloatingActionButton.init(elems);
+  });
+
+            
+  document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.autocomplete');
+    var instances = M.Autocomplete.init(elems);
+  });
+       
+
+        </script>
+    </body>
+</html>

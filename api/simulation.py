@@ -34,7 +34,7 @@ def getLinArrays(arr):
     return LinReg(arr30), LinReg(arr60), LinReg(arr90)
 
 
-STOCKDIR = 'results8/'
+STOCKDIR = 'results20/'
 
 def loadStocks():
     stocks = {}
@@ -42,7 +42,6 @@ def loadStocks():
     directorylist = os.listdir(STOCKDIR)
 
     for i in directorylist:
-        print(i)
         loaded = open(STOCKDIR + i, "r").read()
         stocks[i] = eval(loaded)
         stockdays = []
@@ -79,7 +78,6 @@ def loadStocks():
 
 def process(daystocks, filelist, simday):
     x = simday
-    print(x)
     min = x-90
     if min < 0:
         min = 0
@@ -116,20 +114,20 @@ def startSimulation(date1, date2, initalprice = 100000):
     """)
     time.sleep(.5)
 
-    print("############################")
-    print("#### READING STOCK DATA ####")
-    print("############################")
+    print("##########################")
+    print("### READING STOCK DATA ###")
+    print("##########################")
     daystocks = loadStocks()
-    print("############################")
-    print("#### DONE LOADING STOCK ####")
-    print("############################")
+    print("##########################")
+    print("### DONE LOADING STOCK ###")
+    print("##########################")
 
     firstIndex = None
     endIndex = None
 
     for i in range(len(daystocks)-1):
         if daystocks[i][0] == date1:
-            firstIndex = i
+            firstIndex = i - 90
 
         elif daystocks[i][0] == date2:
             endIndex = i
@@ -138,14 +136,11 @@ def startSimulation(date1, date2, initalprice = 100000):
     money = initalprice
     daystocks = daystocks[firstIndex:endIndex + 1]
 
-    for i in range(len(daystocks)):
+    for i in range(80, len(daystocks)):
         try:
             dayresults = process(daystocks, filelist, i)
-            print(len(dayresults[1]["AMD"]))
             #call algorith here
-            print('here')
-            money, stocksOwned = al.main(dayresults[1],5,10,3,0.1,2.5,0.5,money,stocksOwned)
-            print('done')
-            print(money, stocksOwned)
+            #main(dataBase,w9,w3,w1,avgC,negSig,posSig,bal,stocksOwned):
+            money, stocksOwned = al.main(dayresults[1],5,10,3,1,5,0.5,money,stocksOwned)
         except Exception as e:
             print(traceback.format_exc())

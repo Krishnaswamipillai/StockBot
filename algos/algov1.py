@@ -33,20 +33,16 @@ stockPrice = None
 #We need to import the 90,30,10 day lists every day.
 def setData(BigBadDataStructure):
 	global m90, m30, m10, r290, r230, r210, stockPrice
-	print(numStocksOwnedCompanies)
 	for i in BigBadDataStructure.keys():
 		if i not in numStocksOwnedCompanies.keys():
-			print(i)
 			numStocksOwnedCompanies[i] = 0
 
-	print(BigBadDataStructure['AMD'])
 	m90 = np.array([BigBadDataStructure[x]["linreg90"][0] for x in sorted(numStocksOwnedCompanies.keys()) if x])
 	m30 = np.array([BigBadDataStructure[x]["linreg60"][0] for x in sorted(numStocksOwnedCompanies.keys()) if x])
 	m10 = np.array([BigBadDataStructure[x]["linreg30"][0] for x in sorted(numStocksOwnedCompanies.keys()) if x])
 	r290 = np.array([BigBadDataStructure[x]["linreg90"][1] for x in sorted(numStocksOwnedCompanies.keys()) if x])
 	r230 = np.array([BigBadDataStructure[x]["linreg60"][1] for x in sorted(numStocksOwnedCompanies.keys()) if x])
 	r210 = np.array([BigBadDataStructure[x]["linreg30"][1] for x in sorted(numStocksOwnedCompanies.keys()) if x])
-	print(r210)
 	stockPrice = np.array([BigBadDataStructure[x]["price"] for x in sorted(numStocksOwnedCompanies.keys()) if x])
 
 #transaction fees
@@ -66,29 +62,28 @@ def zCalc():
 def sigmoid(z):
 	# Z = weightAvg*stockAvg - TFeePerShare*weightTfee/stockPrice
 	# The idea is that this will output the percentage of the pool of money that we will applyto various stocks.
-	sigmoidValue = 1/(1+m.exp(-z))
+	sigmoidValue = (1/(1+m.exp(-z))-0.5)
 	if sigmoidValue >= 0:
 		return sigmoidValue * posSigmoidConstant
 	else:
 		return sigmoidValue * negSigmoidConstant
 def vectorSigmoid():
 	vecSigmoid = np.vectorize(sigmoid)
+	#print(vecSigmoid(zCalc()))
 	return vecSigmoid(zCalc())
 
 def stockCalculator():
 	global moneyOnHand, pool, stockPrice, investments
 	arr = vectorSigmoid()
-	print(arr)
-	print(moneyOnHand, "mon")
 	for i in range(len(arr)):
-		if arr[i] >= 0:
+		if arr[i] > 0:
 			if moneyOnHand - int(pool*arr[i]/stockPrice[i])*stockPrice[i] > 0:
 				moneyOnHand -= int(pool*arr[i]/stockPrice[i])*stockPrice[i]
 				investments[i] += int(pool*arr[i]/stockPrice[i])
 		else:
-			if investments[i] >= abs(int(investments[i]*arr[i])):
-				moneyOnHand += abs(int(investments[i]*arr[i]) * stockPrice[i])
-				investments[i] -= abs(int(investments[i]*arr[i]))
+			if investments[i] > abs(int(investments[i]*arr[i])):
+				moneyOnHand -= int(investments[i]*arr[i])*stockPrice[i]
+				investments[i] += int(investments[i]*arr[i])
 			else:
 				moneyOnHand += investments[i] * stockPrice[i]
 				investments[i] = 0
@@ -97,9 +92,8 @@ def stockCalculator():
 			numStocksOwnedCompanies[x] = investments[counter]
 			counter += 1
 			pool = moneyOnHand + np.sum(np.multiply(stockPrice,investments))
-	print(moneyOnHand, investments, "DONE!!!")
 	print("--------------------------------------------")
-	print(moneyOnHand, np.sum(investments))
+	print(moneyOnHand, np.sum(np.multiply(investments,stockPrice)))
 	print("___________________________________________")
 	return moneyOnHand, numStocksOwnedCompanies
 

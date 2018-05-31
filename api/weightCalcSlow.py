@@ -9,7 +9,7 @@ def weightStepper():
   print(w90,w30,w10,AvgW,nSig,pSig)
 
 def weightStep(a):
-  #Dont worry about this function, it should be fine for w90 right now
+  #This is extremly slow, as it runs the simulation 1,200 times
   
   for i in range(0,10)
     for sets in range(0,10):

@@ -1,5 +1,5 @@
 date1 = '2000 1 1'
-date2 = '2017 12 28'
+date2 = '2017 1 1'
 import simulation as s
 import random
 

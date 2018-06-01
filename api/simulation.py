@@ -188,4 +188,4 @@ def startSimulation(date1, date2, initalprice = 100000,w90,w30,w10,avgC,nSig,pSi
             print(money, stocksOwned)
         except Exception as e:
             print(traceback.format_exc())
-    reutrn money
+    return money

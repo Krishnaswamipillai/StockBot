@@ -26,7 +26,11 @@ def getResults(v1, v2, v3, v4, v5, v6,loadedStocks, startmoney=100000):
     investments = 0
     for i in loadedStocks:
         money, stocksOwned, investments = al.main(i,v1,v2,v3,v4,v5,v6,money,stocksOwned)
+<<<<<<< HEAD
 # main(dataBase,w9,w3,w1,avgC,negSig,posSig,bal,stocksOwned):
+=======
+
+>>>>>>> parent of 504256c... Revert "modified things, added 1k files for precomputed linregs"
     return investments + money
 
 def hillclimb(arg):

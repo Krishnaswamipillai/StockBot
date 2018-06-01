@@ -1,5 +1,9 @@
 date1 = '2000 1 1'
+<<<<<<< HEAD
 date2 = '2017 1 1'
+=======
+date2 = '2017 12 28'
+>>>>>>> be8106f30e71433139905f3eb81b8e617e381e96
 import simulation as s
 import random
 
@@ -36,7 +40,11 @@ def weightStep(a,w90,w30,w10,AvgW,nSig,pSig):
         moneyNSigN += s.startSimulation(start, end,w90,w30,w10,AvgW,nSig-a,pSig)
       if flagPSig == False:
         moneyPSigP += s.startSimulation(start, end,w90,w30,w10,AvgW,nSig,pSig+a)
+<<<<<<< HEAD
         moneyPsigN += s.startSimulation(start, start,w90,w30,w10,AvgW,nSig,pSig-a)
+=======
+        moneyPsigN += s.startSimulation(start, end,w90,w30,w10,AvgW,nSig,pSig-a)
+>>>>>>> be8106f30e71433139905f3eb81b8e617e381e96
   
     if moneyW90P > moneyW90N and moneyW90P/10 >= money:
       w90 = w90+a

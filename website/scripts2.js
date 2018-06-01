@@ -29,7 +29,7 @@ function getCurrentStockPrice(ticker, elem){
          console.log(xhttp.response)
          var s = elem.innerHTML=xhttp.response
     };
-    xhttp.open("POST", "/cgi-bin/stockhandler.py", true);
+    xhttp.open("POST", "/cgi-bin/stocks.py", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("ticker=" + ticker)
 }
@@ -38,7 +38,7 @@ function getHistoricalStockData(ticker, startDate, endDate) {
     var xhttp = new XMLHttpRequest();
 
     xhttp.onload = function () {
-        console.log(this.responseText)
+        console.log(xhttp.response)
 
     };
     xhttp.open("POST", "/cgi-bin/stocks.py", true);

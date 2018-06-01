@@ -76,31 +76,26 @@ def stockCalculator():
 	global moneyOnHand, pool, stockPrice, investments
 	arr = vectorSigmoid()
 	for i in range(len(arr)):
-		try:
-			if arr[i] > 0:
-				if moneyOnHand - int(pool*arr[i]/stockPrice[i])*stockPrice[i] > 0:
-					moneyOnHand -= int(pool*arr[i]/stockPrice[i])*stockPrice[i]
-					investments[i] += int(pool*arr[i]/stockPrice[i])
-					owned = []
+		if arr[i] > 0:
+			if moneyOnHand - int(pool*arr[i]/stockPrice[i])*stockPrice[i] > 0:
+				moneyOnHand -= int(pool*arr[i]/stockPrice[i])*stockPrice[i]
+				investments[i] += int(pool*arr[i]/stockPrice[i])
+		else:
+			if investments[i] > abs(int(investments[i]*arr[i])):
+				moneyOnHand -= int(investments[i]*arr[i])*stockPrice[i]
+				investments[i] += int(investments[i]*arr[i])
 			else:
-				if investments[i] > abs(int(investments[i]*arr[i])):
-					moneyOnHand -= int(investments[i]*arr[i])*stockPrice[i]
-					investments[i] += int(investments[i]*arr[i])
-				else:
-					moneyOnHand += investments[i] * stockPrice[i]
-					investments[i] = 0
-			counter = 0
-			for x in sorted(numStocksOwnedCompanies.keys()):
-				numStocksOwnedCompanies[x] = investments[counter]
-				counter += 1
-				pool = moneyOnHand + np.sum(np.multiply(stockPrice,investments))
-		except Exception:
-			pass
-	
+				moneyOnHand += investments[i] * stockPrice[i]
+				investments[i] = 0
+		counter = 0
+		for x in sorted(numStocksOwnedCompanies.keys()):
+			numStocksOwnedCompanies[x] = investments[counter]
+			counter += 1
+			pool = moneyOnHand + np.sum(np.multiply(stockPrice,investments))
 	print("--------------------------------------------")
 	print(moneyOnHand, np.sum(np.multiply(investments,stockPrice)))
 	print("___________________________________________")
-	return moneyOnHand, numStocksOwnedCompanies, np.sum(np.multiply(investments,stockPrice))
+	return moneyOnHand, numStocksOwnedCompanies
 
 def main(dataBase,w9,w3,w1,avgC,negSig,posSig,bal,stocksOwned):
 	global weight90, weight30, weight10, weightAvgConstant, negSigmoidConstant, posSigmoidConstant, moneyOnHand, pool, investments

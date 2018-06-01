@@ -76,7 +76,7 @@ def loadStocks():
 
 
 
-def process(daystocks, filelist, simday, withdate = False):
+def process(daystocks, filelist, simday):
     x = simday
     min = x-90
     if min < 0:
@@ -101,8 +101,7 @@ def process(daystocks, filelist, simday, withdate = False):
 
         except:
             pass
-    if withdate:
-        return daystocks[x]
+
     return daystocks[x]
 
 def startSimulation(date1, date2, initalprice = 100000):
@@ -146,7 +145,7 @@ def startSimulation(date1, date2, initalprice = 100000):
         except Exception as e:
             print(traceback.format_exc())
 
-def startSimulation(date1, date2,w90,w30,w10,avgC,nSig,pSig,  initalprice = 100000):
+def startSimulation(date1, date2, initalprice = 100000,w90,w30,w10,avgC,nSig,pSig):
     filelist = os.listdir(STOCKDIR)
 
     print("""
@@ -189,50 +188,4 @@ def startSimulation(date1, date2,w90,w30,w10,avgC,nSig,pSig,  initalprice = 1000
             print(money, stocksOwned)
         except Exception as e:
             print(traceback.format_exc())
-
-def pregen(date1, date2):
-    filelist = os.listdir(STOCKDIR)
-
-    print("""
-    ##########################
-    ### STOCK TRANINGData ####
-    ##########################
-    """)
-    time.sleep(.5)
-
-    print("##########################")
-    print("### READING STOCK DATA ###")
-    print("##########################")
-    daystocks = loadStocks()
-    print("##########################")
-    print("### DONE LOADING STOCK ###")
-    print("##########################")
-
-    firstIndex = None
-    endIndex = None
-
-    for i in range(len(daystocks)-1):
-        if daystocks[i][0] == date1:
-            firstIndex = i - 90
-
-        elif daystocks[i][0] == date2:
-            endIndex = i
-
-    stocksOwned = {}
-
-    daystocks = daystocks[firstIndex:endIndex + 1]
-    loaded = []
-    counter = 0
-    for i in range(80, len(daystocks)):
-        f=open("linregcalc/" + str(counter), 'w')
-        try:
-            dayresults = process(daystocks, filelist, i, True)
-            f.write(str(dayresults))
-            f.close()
-            counter += 1
-            #call algorith here
-            #main(dataBase,w9,w3,w1,avgC,negSig,posSig,bal,stocksOwned):
-
-        except Exception as e:
-            f.close()
-            print(traceback.format_exc())
+    reutrn money

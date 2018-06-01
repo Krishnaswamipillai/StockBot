@@ -7,7 +7,7 @@
         
         <script src="https://apis.google.com/js/platform.js" async defer></script>
                 <meta name="google-signin-client_id" content="400909393742-fagoekann6vpms68vsmjdtohvisdsrlj.apps.googleusercontent.com">
-                <script src="scripts2.js?13" async defer></script>
+                <script src="scripts2.js?12345655" async defer></script>
         
         <style>
             nav {
@@ -92,7 +92,7 @@
 var current = 0
 stockstracking = []
 function addcard(stockticker) {
-    document.getElementById('cardholder').innerHTML += '<div class="col m4"> <div class="card ' + current.toString() + '"><div class="card-content"> <div class="card-title">' + stockticker + '</div><p>Current Stock Price: <span stock="' + stockticker + '" class="stockprice' + current.toString() +'"></span></p> </div><div class="card-action"> <a href="#">This is a link</a></div></div></div>'
+    document.getElementById('cardholder').innerHTML += '<div class="col m4"> <div stock="' + stockticker + '" class="card ' + current.toString() + '"><div class="card-content"> <div class="card-title">' + stockticker + '</div><p>Current Stock Price: <span class="stockprice' + current.toString() +'"></span></p> </div><div class="card-action"> <a href="#">This is a link</a></div></div></div>'
     current += 1
     console.log(stockstracking.push(stockticker))
     console.log(stockstracking)
@@ -100,7 +100,6 @@ function addcard(stockticker) {
             
 function update() {
     stockstracking.forEach(function(element) {
-        console.log()
         getCurrentStockPrice(element, document.querySelector("[stock = \'" + element + "\']"));
     });
 }

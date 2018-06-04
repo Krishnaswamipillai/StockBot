@@ -5,7 +5,8 @@ from linreg import LinReg
 import time
 import algov1 as al
 import traceback
-
+numnum = 1
+initialprice = 100000
 months = {
     'Jan' : 1,'Feb' : 2,'Mar' : 3,'Apr' : 4,'May' : 5,'Jun' : 6,
     'Jul' : 7,'Aug' : 8,'Sep' : 9, 'Oct' : 10,'Nov' : 11,'Dec' : 12}
@@ -45,7 +46,6 @@ def loadStocks():
         loaded = open(STOCKDIR + i, "r").read()
         stocks[i] = eval(loaded)
         stockdays = []
-
         d = []
         for x in stocks[i]['prices']:
             d.append(x[1].split(" ")[-1] + " " + str(convertMonth(x[1].split(" ")[0])) + " " + x[1].split(" ")[1][:-1])
@@ -104,7 +104,50 @@ def process(daystocks, filelist, simday):
 
     return daystocks[x]
 
-def startSimulation(date1, date2, initalprice = 100000):
+#def startSimulation(date1, date2, initialprice = 100000):
+#    filelist = os.listdir(STOCKDIR)
+#
+#    print("""
+#    ##########################
+#    ### STOCK TRADING BOT ####
+#    ##########################
+#    """)
+#    time.sleep(.5)
+#
+#    print("##########################")
+#    print("### READING STOCK DATA ###")
+#    print("##########################")
+#    daystocks = loadStocks()
+#    print("##########################")
+#    print("### DONE LOADING STOCK ###")
+#    print("##########################")
+#
+#    firstIndex = None
+#    endIndex = None
+#
+#    for i in range(len(daystocks)-1):
+#        if daystocks[i][0] == date1:
+#            firstIndex = i - 90
+#
+#        elif daystocks[i][0] == date2:
+#            endIndex = i
+#
+#    stocksOwned = {}
+#    money = initialprice
+#    daystocks = daystocks[firstIndex:endIndex + 1]
+#    numnum = 1
+#
+#    for i in range(80, len(daystocks)):
+#        try:
+#            dayresults = process(daystocks, filelist, i)
+#            #call algorith here
+#            #main(dataBase,w9,w3,w1,avgC,negSig,posSig,bal,stocksOwned):
+#            money, stocksOwned = al.main(dayresults[1],1,5.5,5,0.475,105,0.265,money,stocksOwned,numnum)
+#            numnum += 1
+#        except Exception as e:
+#            print(traceback.format_exc())
+#
+def startSimulation(date1, date2,w90,w30,w10,avgC,nSig,pSig,initialprice = 100000):
     filelist = os.listdir(STOCKDIR)
 
     print("""
@@ -114,80 +157,35 @@ def startSimulation(date1, date2, initalprice = 100000):
     """)
     time.sleep(.5)
 
-    print("##########################")
-    print("### READING STOCK DATA ###")
-    print("##########################")
+    print("############################")
+    print("#### READING STOCK DATA ####")
+    print("############################")
     daystocks = loadStocks()
-    print("##########################")
-    print("### DONE LOADING STOCK ###")
-    print("##########################")
+    print("############################")
+    print("#### DONE LOADING STOCK ####")
+    print("############################")
 
     firstIndex = None
     endIndex = None
 
     for i in range(len(daystocks)-1):
         if daystocks[i][0] == date1:
-            firstIndex = i - 90
+            firstIndex = i
 
         elif daystocks[i][0] == date2:
             endIndex = i
 
     stocksOwned = {}
-    money = initalprice
+    money = initialprice
     daystocks = daystocks[firstIndex:endIndex + 1]
+    numnum = 1
 
-    for i in range(80, len(daystocks)):
+    for i in range(len(daystocks)):
         try:
             dayresults = process(daystocks, filelist, i)
-            #call algorith here
-            #main(dataBase,w9,w3,w1,avgC,negSig,posSig,bal,stocksOwned):
-            money, stocksOwned = al.main(dayresults[1],5,10,3,1,5,0.5,money,stocksOwned)
+            #call algorithm here
+            money, stocksOwned, total = al.main(dayresults[1],w90,w30,w10,avgC,nSig,pSig,money,stocksOwned,numnum,daystocks[i][0])
+            numnum += 1
         except Exception as e:
             print(traceback.format_exc())
-
-def startSimulation(date1, date2,w90,w30,w10,avgC,nSig,pSig, initalprice = 100000):
-    filelist = os.listdir(STOCKDIR)
-
-    print("""
-    ##########################
-    ### STOCK TRADING BOT ####
-    ##########################
-    """)
-    time.sleep(.5)
-
-    print("##########################")
-    print("### READING STOCK DATA ###")
-    print("##########################")
-    daystocks = loadStocks()
-    print("##########################")
-    print("### DONE LOADING STOCK ###")
-    print("##########################")
-
-    firstIndex = None
-    endIndex = None
-    flagFirst = False
-    flagEnd = False
-    for i in range(len(daystocks)-1):
-        # Since I dont input the right dates, this will use the first day of the year.
-        print(daystocks[i][0])
-        if daystocks[i][0][0:4] == date1[0:4] and flagFirst == False:
-            firstIndex = i - 90
-            flagFirst = True
-        elif daystocks[i][0][0:4] == date2[0:4] and flagEnd == False:
-            endIndex = i
-            flagEnd = True
-
-    stocksOwned = {}
-    money = initalprice
-    daystocks = daystocks[firstIndex:endIndex + 1]
-
-    for i in range(80, len(daystocks)):
-        try:
-            dayresults = process(daystocks, filelist, i)
-            #call algorith here
-            #main(dataBase,w9,w3,w1,avgC,negSig,posSig,bal,stocksOwned):
-            money, stocksOwned = al.main(dayresults[1],w90,w30,w10,avgC,nSig,pSig,money,stocksOwned)
-        except Exception as e:
-            print(traceback.format_exc())
-
-    return money
+    return total

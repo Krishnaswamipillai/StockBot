@@ -3,10 +3,8 @@ import urllib3
 import time
 from datetime import date, datetime
 import math
-import cgi
 from bs4 import BeautifulSoup;
 import concurrent.futures
-import cgitb; cgitb.enable()
 letters = list("abcdefghijklmnopqrstuvwxyz")
 import cProfile
 
@@ -23,7 +21,6 @@ def truncate(number, values=3):
     else:
         return float(number)
 
-arguments = cgi.FieldStorage()
 
 #
 #First data point is always day up
@@ -133,14 +130,6 @@ def getHistoricalData(ticker, startDate, endDate):
     print(len(returnValues))
     return returnValues#[0:-(100-(days%100))]
 
-for i in arguments.keys():
-        #if it was called from a web client, it reads the parameters it was called with to figure out what data was requested
-        if i == "startDate":
-            startDate = arguments[i].value
-        elif i == "endDate":
-            endDate = arguments[i].value
-        elif i == "ticker":
-            ticker = arguments[i].value
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 

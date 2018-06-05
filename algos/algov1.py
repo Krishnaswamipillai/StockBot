@@ -1,5 +1,6 @@
 import numpy as np
 import math as m
+import traceback
 # Global Values
 
 numStocksOwnedCompanies = {}
@@ -95,8 +96,8 @@ def stockCalculator():
 				counter += 1
 				pool = moneyOnHand + np.sum(np.multiply(stockPrice,investments))
 		except Exception:
-			pass
-	
+			print(traceback.format_exc())
+
 	print("--------------------------------------------")
 	print(moneyOnHand, np.sum(np.multiply(investments,stockPrice)))
 	print("___________________________________________")
@@ -107,8 +108,10 @@ def main(dataBase,w9,w3,w1,avgC,negSig,posSig,bal,stocksOwned):
 	setData(dataBase)
 	##INIT##
 	pool = bal
+
 	moneyOnHand = pool
 	investments = np.array([numStocksOwnedCompanies[x] for x in sorted(numStocksOwnedCompanies)])
+	print(investments, bal, "Here")
 	##ENDINIT###
 
 	##CONSTANTS##

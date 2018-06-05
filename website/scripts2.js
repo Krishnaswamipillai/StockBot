@@ -9,12 +9,14 @@ function onSignIn(googleUser, fillInfo) {
     document.getElementById("userImage").setAttribute("src", profile.getImageUrl())
     console.log('Email: ' + profile.getEmail());
     document.querySelector(".email").innerHTML=profile.getEmail()
-    var id_token = googleUser.getAuthResponse().id_token;
+    id_token = googleUser.getAuthResponse().id_token;
     console.log(id_token)
     xhttp.onload = function () {
-        console.log(this.responseText);
-        if (true) {
-            //console.log(JSON.parse(this.responseText.stocks));
+        if (this.responseText != null) {
+            stocks = JSON.parse(this.responseText)['stocks'];
+            for (i in stocks){
+                addcard(i)
+            }
         }
     };
     xhttp.open("POST", "/cgi-bin/main.py", true);
@@ -27,21 +29,31 @@ function getCurrentStockPrice(ticker, elem){
 
      xhttp.onload = function () {
          console.log(xhttp.response)
-         var s = elem.innerHTML=xhttp.response
+         elem.innerHTML = this.responseText
     };
     xhttp.open("POST", "/cgi-bin/stockhandler.py", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("ticker=" + ticker)
 }
 
-function getHistoricalStockData(ticker, startDate, endDate) {
+function getHistoricalStockData(ticker) {
     var xhttp = new XMLHttpRequest();
 
     xhttp.onload = function () {
-        console.log(this.responseText)
+        if (this.responseText != null){
 
+            data = JSON.parse(this.responseText)
+            console.log(data)
+
+            for(i in data){
+                data[i].push(Date.parse(data[i][1]).getTime())
+
+            }
+            graphHD(data, 4528, "graph", 4528)
+
+        }
     };
-    xhttp.open("POST", "/cgi-bin/stocks.py", true);
+    xhttp.open("POST", "/cgi-bin/historicalstock.py", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send("ticker=" + ticker + "&startDate=" + startDate + "&endDate=" + endDate);
+    xhttp.send("ticker=" + ticker);
 }

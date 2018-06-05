@@ -76,7 +76,7 @@ def loadStocks():
 
 
 
-def process(daystocks, filelist, simday, withdate = False):
+def process(daystocks, filelist, simday):
     x = simday
     min = x-90
     if min < 0:
@@ -101,8 +101,7 @@ def process(daystocks, filelist, simday, withdate = False):
 
         except:
             pass
-    if withdate:
-        return daystocks[x]
+
     return daystocks[x]
 
 def startSimulation(date1, date2, initalprice = 100000):
@@ -142,106 +141,6 @@ def startSimulation(date1, date2, initalprice = 100000):
             dayresults = process(daystocks, filelist, i)
             #call algorith here
             #main(dataBase,w9,w3,w1,avgC,negSig,posSig,bal,stocksOwned):
-            money, stocksOwned = al.main(dayresults[1],5,10,3,1,5,0.5,money,stocksOwned)
+            money, stocksOwned, investments= al.main(dayresults[1],5,10,3,1,.4,0.5,money,stocksOwned)
         except Exception as e:
             print(traceback.format_exc())
-
-<<<<<<< HEAD
-def startSimulation(date1, date2,w90,w30,w10,avgC,nSig,pSig, initalprice = 100000):
-=======
-def startSimulation(date1, date2,w90,w30,w10,avgC,nSig,pSig,  initalprice = 100000):
->>>>>>> parent of 504256c... Revert "modified things, added 1k files for precomputed linregs"
-    filelist = os.listdir(STOCKDIR)
-
-    print("""
-    ##########################
-    ### STOCK TRADING BOT ####
-    ##########################
-    """)
-    time.sleep(.5)
-
-    print("##########################")
-    print("### READING STOCK DATA ###")
-    print("##########################")
-    daystocks = loadStocks()
-    print("##########################")
-    print("### DONE LOADING STOCK ###")
-    print("##########################")
-
-    firstIndex = None
-    endIndex = None
-    flagFirst = False
-    flagEnd = False
-    for i in range(len(daystocks)-1):
-        # Since I dont input the right dates, this will use the first day of the year.
-        print(daystocks[i][0])
-        if daystocks[i][0][0:4] == date1[0:4] and flagFirst == False:
-            firstIndex = i - 90
-            flagFirst = True
-        elif daystocks[i][0][0:4] == date2[0:4] and flagEnd == False:
-            endIndex = i
-            flagEnd = True
-
-    stocksOwned = {}
-    money = initalprice
-    daystocks = daystocks[firstIndex:endIndex + 1]
-
-    for i in range(80, len(daystocks)):
-        try:
-            dayresults = process(daystocks, filelist, i)
-            #call algorith here
-            #main(dataBase,w9,w3,w1,avgC,negSig,posSig,bal,stocksOwned):
-            money, stocksOwned = al.main(dayresults[1],w90,w30,w10,avgC,nSig,pSig,money,stocksOwned)
-        except Exception as e:
-            print(traceback.format_exc())
-
-<<<<<<< HEAD
-    return money
-=======
-def pregen(date1, date2):
-    filelist = os.listdir(STOCKDIR)
-
-    print("""
-    ##########################
-    ### STOCK TRANINGData ####
-    ##########################
-    """)
-    time.sleep(.5)
-
-    print("##########################")
-    print("### READING STOCK DATA ###")
-    print("##########################")
-    daystocks = loadStocks()
-    print("##########################")
-    print("### DONE LOADING STOCK ###")
-    print("##########################")
-
-    firstIndex = None
-    endIndex = None
-
-    for i in range(len(daystocks)-1):
-        if daystocks[i][0] == date1:
-            firstIndex = i - 90
-
-        elif daystocks[i][0] == date2:
-            endIndex = i
-
-    stocksOwned = {}
-
-    daystocks = daystocks[firstIndex:endIndex + 1]
-    loaded = []
-    counter = 0
-    for i in range(80, len(daystocks)):
-        f=open("linregcalc/" + str(counter), 'w')
-        try:
-            dayresults = process(daystocks, filelist, i, True)
-            f.write(str(dayresults))
-            f.close()
-            counter += 1
-            #call algorith here
-            #main(dataBase,w9,w3,w1,avgC,negSig,posSig,bal,stocksOwned):
-
-        except Exception as e:
-            f.close()
-            print(traceback.format_exc())
->>>>>>> parent of 504256c... Revert "modified things, added 1k files for precomputed linregs"
